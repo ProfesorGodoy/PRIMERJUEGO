@@ -1,80 +1,54 @@
-const auto = document.getElementById("auto");
-const juego = document.getElementById("juego");
-const gameOverPantalla = document.getElementById("gameOver");
-
-let jugando = true;
-let intervalObstaculos;
-
-// mover auto
-document.addEventListener("keydown", (e) => {
-    if (!jugando) return;
-
-    const autoLeft = auto.offsetLeft;
-
-    if (e.key === "ArrowLeft" && autoLeft > 0) {
-        auto.style.left = autoLeft - 50 + "px";
-    }
-
-    if (e.key === "ArrowRight" && autoLeft < 250) {
-        auto.style.left = autoLeft + 50 + "px";
-    }
-});
-
-// crear obstáculo
-function crearObstaculo() {
-    if (!jugando) return;
-
-    const obs = document.createElement("div");
-    obs.classList.add("obstaculo");
-    obs.style.left = Math.floor(Math.random() * 6) * 50 + "px";
-    obs.style.top = "-100px";
-    juego.appendChild(obs);
-
-    const mover = setInterval(() => {
-        if (!jugando) {
-            clearInterval(mover);
-            return;
-        }
-
-        obs.style.top = obs.offsetTop + 5 + "px";
-
-        // 🟥 COLISIÓN REAL (RECTÁNGULOS)
-        const autoRect = auto.getBoundingClientRect();
-        const obsRect = obs.getBoundingClientRect();
-
-        if (
-            autoRect.left < obsRect.right &&
-            autoRect.right > obsRect.left &&
-            autoRect.top < obsRect.bottom &&
-            autoRect.bottom > obsRect.top
-        ) {
-            terminarJuego();
-        }
-
-        if (obs.offsetTop > 500) {
-            clearInterval(mover);
-            obs.remove();
-        }
-    }, 30);
+body {
+    background: #222;
+    color: white;
+    text-align: center;
+    font-family: Arial;
 }
 
-function terminarJuego() {
-    if (!jugando) return;
-
-    jugando = false;
-    clearInterval(intervalObstaculos);
-    gameOverPantalla.style.display = "block";
+#juego {
+    position: relative;
+    width: 300px;
+    height: 500px;
+    background: gray;
+    margin: auto;
+    overflow: hidden;
 }
 
-function reiniciarJuego() {
-    document.querySelectorAll(".obstaculo").forEach(o => o.remove());
-
-    auto.style.left = "125px";
-    jugando = true;
-    gameOverPantalla.style.display = "none";
-
-    intervalObstaculos = setInterval(crearObstaculo, 1500);
+#auto {
+    position: absolute;
+    width: 50px;
+    height: 80px;
+    background: red;
+    bottom: 20px;
+    left: 125px;
 }
 
-// iniciar juego
-intervalObstaculos = setInterval(crearObstaculo, 1500);
+.obstaculo {
+    position: absolute;
+    width: 50px;
+    height: 80px;
+    background: black;
+    top: -100px;
+}
+
+#gameOver {
+    display: none;
+    margin-top: 20px;
+}
+
+#gameOver button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#controles {
+    margin-top: 10px;
+}
+
+#controles button {
+    padding: 15px 30px;
+    font-size: 20px;
+    margin: 5px;
+    cursor: pointer;
+}
