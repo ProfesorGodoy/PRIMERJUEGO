@@ -6,12 +6,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const gameOverPantalla = document.getElementById("gameOver");
     const finalPuntaje = document.getElementById("finalPuntaje");
     const top10List = document.getElementById("top10");
-    const sonidoClick = document.getElementById("sonidoClick");
+    const sonidoGlobo = document.getElementById("sonidoGlobo");
 
     let puntaje = 0;
     let jugando = true;
     let tiempoJuego = 30; // segundos
     let timer;
+
+    // Lista de alias para top 10
+    const alias = ["Rayo", "Pixel", "Luz", "Nube", "Eco", "Sombra", "Nova", "Vortex", "Flash", "Cometa"];
 
     // FUNCION QUE MUEVE EL OBJETIVO Y CAMBIA COLOR/TAMAÑO
     function moverObjetivo() {
@@ -47,9 +50,9 @@ document.addEventListener("DOMContentLoaded", () => {
         puntaje++;
         puntajeDiv.textContent = "Puntaje: " + puntaje;
 
-        // reproducir sonido
-        sonidoClick.currentTime = 0;
-        sonidoClick.play();
+        // reproducir sonido en click/tap
+        sonidoGlobo.currentTime = 0;
+        sonidoGlobo.play().catch(e => { /* para evitar error en móviles que bloquean autoplay */ });
 
         moverObjetivo();
     });
@@ -82,10 +85,10 @@ document.addEventListener("DOMContentLoaded", () => {
         finalPuntaje.textContent = puntaje;
         gameOverPantalla.style.display = "block";
 
-        // Guardar puntaje en localStorage
+        // Guardar puntaje en localStorage y asignar alias
         let top10 = JSON.parse(localStorage.getItem("top10")) || [];
-        top10.push(puntaje);
-        top10.sort((a,b) => b - a);
+        top10.push({ alias: alias[Math.floor(Math.random() * alias.length)], score: puntaje });
+        top10.sort((a,b) => b.score - a.score);
         top10 = top10.slice(0,10);
         localStorage.setItem("top10", JSON.stringify(top10));
         mostrarTop10();
@@ -95,9 +98,9 @@ document.addEventListener("DOMContentLoaded", () => {
     function mostrarTop10() {
         const top10 = JSON.parse(localStorage.getItem("top10")) || [];
         top10List.innerHTML = "";
-        top10.forEach(p => {
+        top10.forEach(entry => {
             const li = document.createElement("li");
-            li.textContent = p;
+            li.textContent = `${entry.alias}: ${entry.score}`;
             top10List.appendChild(li);
         });
     }
