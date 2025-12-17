@@ -1,92 +1,70 @@
-const auto = document.getElementById("auto");
+const objetivo = document.getElementById("objetivo");
 const juego = document.getElementById("juego");
+const puntajeDiv = document.getElementById("puntaje");
 const gameOverPantalla = document.getElementById("gameOver");
+const finalPuntaje = document.getElementById("finalPuntaje");
 
+let puntaje = 0;
 let jugando = true;
-let intervalObstaculos;
+let tiempoJuego = 30; // segundos
+let timer;
 
-// FUNCIONES DE MOVIMIENTO
-function moverIzquierda() {
+// FUNCION QUE MUEVE EL OBJETIVO
+function moverObjetivo() {
     if (!jugando) return;
-    const autoLeft = auto.offsetLeft;
-    if (autoLeft > 0) auto.style.left = autoLeft - 50 + "px";
+
+    const maxX = juego.clientWidth - 50;
+    const maxY = juego.clientHeight - 50;
+
+    const randomX = Math.floor(Math.random() * maxX);
+    const randomY = Math.floor(Math.random() * maxY);
+
+    objetivo.style.left = randomX + "px";
+    objetivo.style.top = randomY + "px";
+
+    // Animación de “pop”
+    objetivo.style.transform = "scale(1.2)";
+    setTimeout(() => { objetivo.style.transform = "scale(1)"; }, 100);
 }
 
-function moverDerecha() {
-    if (!jugando) return;
-    const autoLeft = auto.offsetLeft;
-    if (autoLeft < 250) auto.style.left = autoLeft + 50 + "px";
-}
-
-// MOVER AUTO CON TECLADO PC
-document.addEventListener("keydown", (e) => {
+// CUANDO SE CLICKEA EL OBJETIVO
+objetivo.addEventListener("click", () => {
     if (!jugando) return;
 
-    if (e.key === "ArrowLeft") moverIzquierda();
-    if (e.key === "ArrowRight") moverDerecha();
+    puntaje++;
+    puntajeDiv.textContent = "Puntaje: " + puntaje;
+    moverObjetivo();
 });
 
-// CONTROLES PARA CELULAR
-document.getElementById("izquierda").addEventListener("click", moverIzquierda);
-document.getElementById("derecha").addEventListener("click", moverDerecha);
+// INICIAR TEMPORIZADOR
+function iniciarJuego() {
+    puntaje = 0;
+    jugando = true;
+    puntajeDiv.textContent = "Puntaje: 0";
+    gameOverPantalla.style.display = "none";
+    moverObjetivo();
 
-// CREAR OBSTÁCULO
-function crearObstaculo() {
-    if (!jugando) return;
-
-    const obs = document.createElement("div");
-    obs.classList.add("obstaculo");
-    obs.style.left = Math.floor(Math.random() * 6) * 50 + "px";
-    obs.style.top = "-100px";
-    juego.appendChild(obs);
-
-    const mover = setInterval(() => {
-        if (!jugando) {
-            clearInterval(mover);
-            return;
-        }
-
-        obs.style.top = obs.offsetTop + 5 + "px";
-
-        // COLISIÓN REAL
-        const autoRect = auto.getBoundingClientRect();
-        const obsRect = obs.getBoundingClientRect();
-
-        if (
-            autoRect.left < obsRect.right &&
-            autoRect.right > obsRect.left &&
-            autoRect.top < obsRect.bottom &&
-            autoRect.bottom > obsRect.top
-        ) {
+    let tiempoRestante = tiempoJuego;
+    timer = setInterval(() => {
+        tiempoRestante--;
+        if (tiempoRestante <= 0) {
             terminarJuego();
         }
-
-        if (obs.offsetTop > 500) {
-            clearInterval(mover);
-            obs.remove();
-        }
-    }, 30);
+    }, 1000);
 }
 
 // TERMINAR JUEGO
 function terminarJuego() {
-    if (!jugando) return;
-
     jugando = false;
-    clearInterval(intervalObstaculos);
+    clearInterval(timer);
+    finalPuntaje.textContent = puntaje;
     gameOverPantalla.style.display = "block";
 }
 
 // REINICIAR JUEGO
 function reiniciarJuego() {
-    document.querySelectorAll(".obstaculo").forEach(o => o.remove());
-
-    auto.style.left = "125px";
-    jugando = true;
-    gameOverPantalla.style.display = "none";
-
-    intervalObstaculos = setInterval(crearObstaculo, 1500);
+    iniciarJuego();
 }
 
-// INICIAR JUEGO
-intervalObstaculos = setInterval(crearObstaculo, 1500);
+// INICIAR AUTOMÁTICAMENTE
+iniciarJuego();
