@@ -2,17 +2,18 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Globo Dopamina Game</title>
+    <title>Globo</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <h2>🎈 Clickea el globo y gana!</h2>
-    <p>Haz clic o toca el globo rojo lo más rápido que puedas</p>
+    <h2>🎈 GLOBO</h2>
+    <p>Haz clic o toca el globo  lo más rápido posible</p>
     <div id="cronometro">Tiempo: 30s</div>
 
     <div id="juego">
         <div id="objetivo"></div>
+        <canvas id="confetiCanvas"></canvas>
     </div>
 
     <div id="puntaje">Puntaje: 0</div>
@@ -23,8 +24,10 @@
         <button onclick="reiniciarJuego()">Reiniciar</button>
     </div>
 
-    <!-- Sonido de globo explotando -->
+    <!-- Sonidos -->
     <audio id="sonidoGlobo" src="https://freesound.org/data/previews/256/256113_3263906-lq.mp3"></audio>
+    <audio id="sonidoCombo" src="https://freesound.org/data/previews/341/341695_5121236-lq.mp3"></audio>
+    <audio id="sonidoNivel" src="https://freesound.org/data/previews/146/146725_2615117-lq.mp3"></audio>
 
     <script src="script.js"></script>
 </body>
