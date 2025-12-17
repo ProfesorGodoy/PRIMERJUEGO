@@ -5,16 +5,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const cronometroDiv = document.getElementById("cronometro");
     const gameOverPantalla = document.getElementById("gameOver");
     const finalPuntaje = document.getElementById("finalPuntaje");
-    const top10List = document.getElementById("top10");
     const sonidoGlobo = document.getElementById("sonidoGlobo");
 
     let puntaje = 0;
     let jugando = true;
     let tiempoJuego = 30; // segundos
     let timer;
-
-    // Lista de alias para top 10
-    const alias = ["Rayo", "Pixel", "Luz", "Nube", "Eco", "Sombra", "Nova", "Vortex", "Flash", "Cometa"];
 
     // FUNCION QUE MUEVE EL OBJETIVO Y CAMBIA COLOR/TAMAÑO
     function moverObjetivo() {
@@ -52,7 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // reproducir sonido en click/tap
         sonidoGlobo.currentTime = 0;
-        sonidoGlobo.play().catch(e => { /* para evitar error en móviles que bloquean autoplay */ });
+        sonidoGlobo.play().catch(e => { /* evitar error si autoplay bloqueado */ });
 
         moverObjetivo();
     });
@@ -84,25 +80,6 @@ document.addEventListener("DOMContentLoaded", () => {
         clearInterval(timer);
         finalPuntaje.textContent = puntaje;
         gameOverPantalla.style.display = "block";
-
-        // Guardar puntaje en localStorage y asignar alias
-        let top10 = JSON.parse(localStorage.getItem("top10")) || [];
-        top10.push({ alias: alias[Math.floor(Math.random() * alias.length)], score: puntaje });
-        top10.sort((a,b) => b.score - a.score);
-        top10 = top10.slice(0,10);
-        localStorage.setItem("top10", JSON.stringify(top10));
-        mostrarTop10();
-    }
-
-    // MOSTRAR TOP 10
-    function mostrarTop10() {
-        const top10 = JSON.parse(localStorage.getItem("top10")) || [];
-        top10List.innerHTML = "";
-        top10.forEach(entry => {
-            const li = document.createElement("li");
-            li.textContent = `${entry.alias}: ${entry.score}`;
-            top10List.appendChild(li);
-        });
     }
 
     // REINICIAR JUEGO
@@ -112,5 +89,4 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // INICIAR AUTOMÁTICAMENTE
     iniciarJuego();
-    mostrarTop10();
 });
