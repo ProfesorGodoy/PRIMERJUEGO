@@ -42,13 +42,23 @@ body {
     cursor: pointer;
 }
 
+/* CONTROLES CELULAR */
 #controles {
-    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    gap: 20px;
 }
 
 #controles button {
-    padding: 15px 30px;
-    font-size: 20px;
-    margin: 5px;
+    flex: 1;
+    max-width: 150px;
+    padding: 30px 0;
+    font-size: 40px;
     cursor: pointer;
+    border: none;
+    border-radius: 10px;
+    background-color: #ff5722;
+    color: white;
+    user-select: none;
 }
