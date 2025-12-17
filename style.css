@@ -6,7 +6,7 @@ body {
 }
 
 #juego {
-    position: relative;
+    position: relative; /* importante para que el objetivo se posicione dentro */
     width: 300px;
     height: 500px;
     background: #333;
