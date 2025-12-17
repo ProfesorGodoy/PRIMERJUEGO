@@ -2,13 +2,13 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Skinner Dopamina Game</title>
+    <title>Skinner Game</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <h2>🎯 Clickea el objetivo y gana dopamina!</h2>
-    <p>Haz clic o toca el círculo rojo lo más rápido que puedas</p>
+    <h2>🎯 Clickea el globo !</h2>
+    <p>Haz clic o toca el globo rojo lo más rápido que puedas</p>
     <div id="cronometro">Tiempo: 30s</div>
 
     <div id="juego">
@@ -22,11 +22,12 @@
         <p>Tu puntaje: <span id="finalPuntaje">0</span></p>
         <button onclick="reiniciarJuego()">Reiniciar</button>
 
-        <h3>🏅 Top 10 Puntajes</h3>
+        <h3>🏅 Top 10 Aliases</h3>
         <ol id="top10"></ol>
     </div>
 
-    <audio id="sonidoClick" src="https://freesound.org/data/previews/522/522317_6947454-lq.mp3"></audio>
+    <!-- Sonido de globo explotando -->
+    <audio id="sonidoGlobo" src="https://freesound.org/data/previews/256/256113_3263906-lq.mp3"></audio>
 
     <script src="script.js"></script>
 </body>
