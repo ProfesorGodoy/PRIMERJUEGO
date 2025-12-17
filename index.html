@@ -2,28 +2,24 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Carrera de Autos</title>
+    <title>Skinner Dopamina Game</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <h2>🚗 Carrera simple</h2>
-    <p>Usa ⬅️ ➡️ o los botones en pantalla para mover el auto</p>
+    <h2>🎯 Clickea el objetivo y gana dopamina!</h2>
+    <p>Haz clic o toca el círculo rojo lo más rápido que puedas</p>
 
     <div id="juego">
-        <div id="auto"></div>
+        <div id="objetivo"></div>
     </div>
 
-    <!-- Botones para celular -->
-    <div id="controles">
-        <button id="izquierda">⬅️</button>
-        <button id="derecha">➡️</button>
-    </div>
+    <div id="puntaje">Puntaje: 0</div>
 
-    <!-- Pantalla de Game Over -->
     <div id="gameOver">
-        <h1>💥 GAME OVER</h1>
-        <button onclick="reiniciarJuego()">Reiniciar juego</button>
+        <h1>🏆 ¡Tiempo terminado!</h1>
+        <p>Tu puntaje: <span id="finalPuntaje">0</span></p>
+        <button onclick="reiniciarJuego()">Reiniciar</button>
     </div>
 
     <script src="script.js"></script>
